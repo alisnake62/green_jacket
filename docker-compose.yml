@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  django_green_jacket:
+    depends_on:
+      - db_green_jacket
+    build:
+      context: .
+    container_name: django_green_jacket
+    command: "poetry run python green_jacket/manage.py runserver 0.0.0.0:8000"
+    restart: always
+    environment:
+      APP_PATH: /usr/src/app/
+      SQL_PASSWORD: ${sql_password}
+      APP_ENV: docker
+      APP_MODE: normal
+    ports:
+      - 20001:8000
+    volumes:
+      - .:/usr/src/app
+
+  db_green_jacket:
+    image: mariadb:10.4
+    container_name: db_green_jacket
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: ${sql_password}
+      MYSQL_DATABASE: green_jacket
+      MYSQL_USER: green_jacket_user
+      MYSQL_PASSWORD: ${sql_password}
+    ports:
+      - "20003:3306"
+
+  phpmyadmin_green_jacket:
+    depends_on:
+      - db_green_jacket
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin_green_jacket
+    restart: always
+    environment:
+      PMA_HOST: db_green_jacket
+      MYSQL_ROOT_PASSWORD: ${sql_password}
+    ports:
+      - "20002:80"
+
+volumes:
+  data:
