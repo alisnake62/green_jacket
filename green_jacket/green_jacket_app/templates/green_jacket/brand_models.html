@@ -1,0 +1,89 @@
+{% extends 'green_jacket/base.html' %}
+
+{% block content %}
+
+    <!-- Title -->
+    <h1 style="text-align:center; font-size:70px; color:{{colors.color3}}">Les Modèles</h1>
+
+    <form method="GET" id="brandFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
+
+        <label for="brand-select">Marque:</label>
+        <select name="brand" onchange="if (this.form.className == 'filter') this.form.submit()">
+            <option value="">Tout</option>
+            {% for brand in brands_to_filter %}
+                {% if brand.name == brand_selected %}
+                    <option value={{brand.name}} selected>{{brand.name}}</option>
+                {% else %}
+                    <option value={{brand.name}}>{{brand.name}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+    </form>
+
+    <form method="GET" id="typeFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
+
+        <label for="type-select">Type:</label>
+        <select name="brand_model_type" onchange="if (this.form.className == 'filter') this.form.submit()">
+            <option value="">Tout</option>
+            {% for brand_model_type in brand_model_types_to_filter %}
+                {% if brand_model_type == brand_model_type_selected %}
+                    <option value={{brand_model_type}} selected>{{brand_model_type}}</option>
+                {% else %}
+                    <option value={{brand_model_type}}>{{brand_model_type}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    
+    </form>
+
+    <div class="row" style="text-align:center">
+        <table>
+            <tr>
+                <th>Marque</th>
+                <th>Modèle</th>
+                <th>Score</th>
+                <th>Matériel</th>
+                <th>Provenance</th>
+                <th>Processus de fabrication</th>
+            </tr>
+            {% for brand_model in brand_models %}
+                <tr>
+                    <td>
+                        <a href="{% url 'green_jacket_app:brand_models' %}?brand={{ brand_model.brand.name }}">
+                            <img style="width: 200px" src="{{ brand_model.brand.image_url }}" alt="Logo HubSpot"/>
+                        </a>
+                        </br>
+                        Green Score : <strong>{{brand_model.brand.get_score}}</strong>
+                    </td>
+                    <td>
+                        <a href="{{ brand_model.link }}">
+                            <img style="width: 200px" src="{{ brand_model.image_url }}" alt="Logo HubSpot"/>
+                        </a>
+                        </br>
+                        <strong>{{ brand_model.name }}</strong>
+                    </td>
+                    <td>
+                        <h2>{{ brand_model.get_score }}</h2>
+                    </td>
+                    <td>
+                        <img style="width: 200px" src="{{ brand_model.material.image_url }}" alt="Logo HubSpot"/>
+                        </br>
+                        <strong>{{ brand_model.material.name }}</strong>
+                    </td>
+                    <td>
+                        <img style="width: 200px" src="{{ brand_model.country.image_url }}" alt="Logo HubSpot"/>
+                        </br>
+                        <strong>{{ brand_model.country.name }}</strong>
+                    </td>
+                    <td>
+                        <img style="width: 200px" src="{{ brand_model.build_process.image_url }}" alt="Logo HubSpot"/>
+                        </br>
+                        <strong>{{ brand_model.build_process.name }}</strong>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

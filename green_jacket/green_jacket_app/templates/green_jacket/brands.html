@@ -1,0 +1,26 @@
+{% extends 'green_jacket/base.html' %}
+
+{% block content %}
+
+    <!-- Title -->
+    <h1 style="text-align:center; font-size:70px; color:{{colors.color3}}">Les Marques</h1>
+
+    <div class="row" style="text-align:center">
+        <table>
+            {% for brand in brands %}
+                <tr>
+                    <td>
+                        </br>
+                        <a href="{% url 'green_jacket_app:brand_models' %}?brand={{ brand.name }}">
+                            <img style="width: 600px" src="{{ brand.image_url }}" alt="Logo HubSpot"/>
+                        </a>
+                        </br>
+                        <H3>Green Score : <strong>{{brand.get_score}}</strong></H3>
+                        </br>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
