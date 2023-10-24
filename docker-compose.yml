@@ -16,7 +16,7 @@ services:
       APP_ENV: docker
       APP_MODE: normal
     ports:
-      - 80:8000
+      - ${django_port}:8000
     volumes:
       - .:/usr/src/app
 
@@ -45,7 +45,7 @@ services:
       PMA_HOST: db_green_jacket
       MYSQL_ROOT_PASSWORD: ${sql_password}
     ports:
-      - "8080:80"
+      - "${phpmyadmin_port}:80"
 
 volumes:
   data:
