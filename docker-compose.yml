@@ -16,7 +16,7 @@ services:
       APP_ENV: docker
       APP_MODE: normal
     ports:
-      - 20001:8000
+      - 80:8000
     volumes:
       - .:/usr/src/app
 
@@ -45,7 +45,7 @@ services:
       PMA_HOST: db_green_jacket
       MYSQL_ROOT_PASSWORD: ${sql_password}
     ports:
-      - "20002:80"
+      - "8080:80"
 
 volumes:
   data:
