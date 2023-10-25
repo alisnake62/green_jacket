@@ -1,20 +1,12 @@
 {% extends 'green_jacket/base.html' %}
 
 {% block content %}
-
-<style>
-  
-</style>
-
-<div class="login-container" style="text-align: center;">
   <h2>Connexion</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Se connecter</button>
   </form>
-  Si vous n'avez pas de compte : <a href="{% url 'green_jacket_app:signup' %}">Signup</a>
-</div>
 
-  
+  Si vous n'avez pas de compte : <a href="{% url 'green_jacket_app:signup' %}">Signup</a>
 {% endblock %}

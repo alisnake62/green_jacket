@@ -11,4 +11,6 @@ urlpatterns = [
     path('toogle_dark_mode/', views.toogle_dark_mode, name="toogle_dark_mode"),
     path('brand_models/', views.brand_models, name="brand_models"),
     path('brands/', views.brands, name="brands"),
+    path('green_score/', views.green_score, name="green_score"),
+    path('toogle_favorite/', views.toogle_favorite, name="toogle_favorite"),
 ]

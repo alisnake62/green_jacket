@@ -8,14 +8,23 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 
 
-from green_jacket_app.models import Brand, UserCustom, BrandModel
+from green_jacket_app.models import Brand, UserCustom, BrandModel, Favorite
 
 def get_colors(is_dark_mode):
 
     colors = [
-        ["#001011", "#FFFFFF"],
-        ["#0F4637", "#A2E1C4"],
-        ["#EBD82D", "#001011"]
+        [
+            {"1": "#001011", "2":"#042629"},
+            {"1": "#FFFFFF", "2":"#FFFFFF"}
+        ],
+        [
+            {"1": "#0F4637", "2":"#266856"},
+            {"1": "#A2E1C4", "2":"#93d5b7"}
+        ],
+        [
+            {"1": "#EBD82D", "2":"#f8e74f"},
+            {"1": "#001011", "2":"#042629"}
+        ]
     ]
     text = ["#FFFFFF", "#001011"]
 
@@ -35,17 +44,14 @@ def get_context(request):
         user_custom = UserCustom.objects.get(name=user_name)
         context["dark_mode"] = user_custom.dark_mode
         context["user"] = user_name
+        context["connected"] = True
     except:
         context["dark_mode"] = False
+        context["connected"] = False
 
     context["current_path"] = request.path
     context["colors"] = get_colors(context["dark_mode"])
     return context
-
-# from bfmAdmin.models import Export
-
-# from bfmAdmin.utils.exportUtils import ExportUtils
-# from bfmAdmin.utils.viewsUtils import ViewsUtils
 
 def signup(request):
     context = get_context(request)
@@ -69,6 +75,12 @@ def home(request):
 
     context = get_context(request)
     return render(request, 'green_jacket/home.html', context)
+
+@login_required
+def green_score(request):
+
+    context = get_context(request)
+    return render(request, 'green_jacket/green_score.html', context)
 
 def login_view(request):
     context = get_context(request)
@@ -100,10 +112,35 @@ def toogle_dark_mode(request):
 
     return redirect(next_params)
 
+@login_required
+def toogle_favorite(request):
+
+    context = get_context(request)
+    brand_model_id = get_params(request, "brand_model_id")
+    type_selected = get_params(request, "type")
+    brand_selected = get_params(request, "brand")
+    favorite_selected = get_params(request, "favorite")
+
+    user_custom = UserCustom.objects.get(name=context["user"])
+    brand_model = BrandModel.objects.get(id=brand_model_id)
+
+    favorite = Favorite.objects.filter(user=user_custom).filter(brand_model=brand_model)
+    if len(favorite) == 0:
+        favorite = Favorite(
+            user=user_custom,
+            brand_model=brand_model
+        )
+        favorite.save()
+    else:
+        favorite.delete()
+
+    return redirect(f"/green_jacket/brand_models?brand={brand_selected}&type={type_selected}&favorite={favorite_selected}")
+
 def get_params(request, param):
     get_params = request.GET
     return get_params[param] if param in get_params else None
 
+@login_required
 def brands(request):
 
     context = get_context(request)
@@ -117,11 +154,15 @@ def brands(request):
 
     return HttpResponse(render(request, "green_jacket/brands.html", context))
 
+@login_required
 def brand_models(request):
 
     context = get_context(request)
 
+    user_custom = UserCustom.objects.get(name=context["user"])
+
     brand_selected = get_params(request, "brand")
+    favorite_selected = get_params(request, "favorite")
     brand_model_type_selected = get_params(request, "brand_model_type")
     context["brand_selected"] = brand_selected
     context["brand_model_type_selected"] = brand_model_type_selected
@@ -138,10 +179,29 @@ def brand_models(request):
         brand_models = brand_models.filter(type=brand_model_type_selected)
 
     brand_models = [model for model in brand_models]
+
+    if favorite_selected == 'on':
+        new_brand_models=[]
+        for brand_model in brand_models:
+            favorite = Favorite.objects.filter(user=user_custom).filter(brand_model=brand_model)
+            if len(favorite) == 0:
+                pass
+            else:
+                new_brand_models.append(brand_model)
+        brand_models = new_brand_models
+
     brand_models.sort(key=lambda model:-model.get_score())
+
+    for brand_model in brand_models:
+        favorite = Favorite.objects.filter(user=user_custom).filter(brand_model=brand_model)
+        if len(favorite) == 0:
+            brand_model.favorite = False
+        else:
+            brand_model.favorite = True
 
     context["brand_models"] = brand_models
     context["brands_to_filter"] = brands_to_filter
     context["brand_model_types_to_filter"] = brand_model_types_to_filter
+    context["favorite_selected"] = favorite_selected
 
     return HttpResponse(render(request, "green_jacket/brand_models.html", context))

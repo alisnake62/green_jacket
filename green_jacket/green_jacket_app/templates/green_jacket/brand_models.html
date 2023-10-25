@@ -2,8 +2,10 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <!-- Title -->
-    <h1 style="text-align:center; font-size:70px; color:{{colors.color3}}">Les Modèles</h1>
+    <h1 style="text-align:center; font-size:70px; color:{{colors.color3.1}}">Les Modèles</h1>
 
     <form method="GET" id="brandFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
 
@@ -37,53 +39,129 @@
     
     </form>
 
-    <div class="row" style="text-align:center">
-        <table>
-            <tr>
-                <th>Marque</th>
-                <th>Modèle</th>
-                <th>Score</th>
-                <th>Matériel</th>
-                <th>Provenance</th>
-                <th>Processus de fabrication</th>
-            </tr>
-            {% for brand_model in brand_models %}
-                <tr>
-                    <td>
-                        <a href="{% url 'green_jacket_app:brand_models' %}?brand={{ brand_model.brand.name }}">
-                            <img style="width: 200px" src="{{ brand_model.brand.image_url }}" alt="Logo HubSpot"/>
-                        </a>
-                        </br>
-                        Green Score : <strong>{{brand_model.brand.get_score}}</strong>
-                    </td>
-                    <td>
-                        <a href="{{ brand_model.link }}">
-                            <img style="width: 200px" src="{{ brand_model.image_url }}" alt="Logo HubSpot"/>
-                        </a>
-                        </br>
-                        <strong>{{ brand_model.name }}</strong>
-                    </td>
-                    <td>
-                        <h2>{{ brand_model.get_score }}</h2>
-                    </td>
-                    <td>
-                        <img style="width: 200px" src="{{ brand_model.material.image_url }}" alt="Logo HubSpot"/>
-                        </br>
-                        <strong>{{ brand_model.material.name }}</strong>
-                    </td>
-                    <td>
-                        <img style="width: 200px" src="{{ brand_model.country.image_url }}" alt="Logo HubSpot"/>
-                        </br>
-                        <strong>{{ brand_model.country.name }}</strong>
-                    </td>
-                    <td>
-                        <img style="width: 200px" src="{{ brand_model.build_process.image_url }}" alt="Logo HubSpot"/>
-                        </br>
-                        <strong>{{ brand_model.build_process.name }}</strong>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <form method="GET" id="typeFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
+
+        <label for="favorite-checkbox">Mes Favoris:</label>
+        {% if favorite_selected == 'on' %}
+            <input
+                type="checkbox"
+                id="favorite"
+                name="favorite"
+                onchange="if (this.form.className == 'filter') this.form.submit()"
+                checked
+            ></input>
+        {% else %}
+            <input
+                type="checkbox"
+                id="favorite"
+                name="favorite"
+                onchange="if (this.form.className == 'filter') this.form.submit()"
+            ></input>
+        {% endif %}
+
+    </form>
+
+    
+    <div class="row">
+
+        <div class="col-10">
+            <div class="row">
+                <table>
+                    {% for brand_model in brand_models %}
+                        <tr>
+                            <td valign="top" style="text-align:right">
+                                <a href="{{ brand_model.link }}">
+                                    <img style="height: 700px" src="{{ brand_model.image_url }}"/>
+                                </a>
+                                </br>
+                                <h3>
+                                    <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:toogle_favorite' %}?brand_model_id={{ brand_model.id }}&type={{brand_model_type_selected}}&brand={{brand_selected}}&favorite={{favorite_selected}}">
+                                        {% if brand_model.favorite %}
+                                            <span class="glyphicon glyphicon-heart"></span> 
+                                        {% else %}
+                                            <span class="glyphicon glyphicon-heart-empty"></span>
+                                        {% endif %}
+                                    </a>
+                                    {{ brand_model.name }}
+                                </h3>
+                            </td>
+                            <td valign="top" style="text-align:left">
+                                <a href="{% url 'green_jacket_app:brand_models' %}?brand={{ brand_model.brand.name }}">
+                                    <img style="height: 350px" src="{{ brand_model.brand.image_url }}"/>
+                                </a>
+                                </br>
+                                <h4> Marque {{ brand_model.brand.name }}</h4>
+                                <h5> (Green Score Moyen : <strong>{{brand_model.brand.get_score}}</strong>)</h5>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h2>Green Score :</h2>
+                                        </td>
+                                        <td>
+                                            <h2><strong>{{ brand_model.get_score }}</strong></h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Provenance :</h4>
+                                        </td>
+                                        <td>
+                                            <img style="height: 25px" src="{{ brand_model.country.image_url }}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td>
+                                        <h4>Matériel :</h4>
+                                    </td>
+                                    <td>
+                                        <h4><strong>{{ brand_model.material.name }}</strong></h4>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4>Fabrication :</h4>
+                                        </td>
+                                        <td>
+                                            <h4><strong>{{ brand_model.build_process.name }}</strong></h4>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h3>Prix :</h3>
+                                        </td>
+                                        <td>
+                                            <h3><strong>€ {{ brand_model.tarif }}</strong></h3>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br/>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+    
 
 {% endblock %}

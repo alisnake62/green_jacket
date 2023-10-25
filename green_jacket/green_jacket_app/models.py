@@ -7,9 +7,6 @@ class UserCustom(models.Model):
     name = models.CharField(max_length=50)
     dark_mode = models.BooleanField(default=False)
 
-class ShopCart(models.Model):
-    user = models.ForeignKey(UserCustom, related_name="shop_carts", on_delete=models.CASCADE)
-
 class BuildProcess(models.Model):
     name = models.CharField(max_length=50)
     image_url = models.CharField(max_length=5000)
@@ -46,9 +43,14 @@ class BrandModel(models.Model):
     country = models.ForeignKey(Country, related_name="brand_models", on_delete=models.CASCADE)
     build_process = models.ForeignKey(BuildProcess, related_name="brand_models", on_delete=models.CASCADE)
     brand   = models.ForeignKey(Brand, related_name="brand_models", on_delete=models.CASCADE)
-    shop_cart = models.ForeignKey(ShopCart, related_name="brand_models", on_delete=models.CASCADE, null = True)
     image_url = models.CharField(max_length=5000)
+    tarif = models.FloatField()
+    favorite = models.BooleanField(default=False)
 
     def get_score(self):
 
         return self.material.score + self.country.score + self.build_process.score
+
+class Favorite(models.Model):
+    user = models.ForeignKey(UserCustom, related_name="favorites", on_delete=models.CASCADE)
+    brand_model = models.ForeignKey(BrandModel, related_name="favorites", on_delete=models.CASCADE)

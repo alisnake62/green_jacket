@@ -1,10 +1,12 @@
 {% extends 'green_jacket/base.html' %}
 
 {% block content %}
+<div class="login-container" style="text-align: center;">
   <h2>Inscription</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">S'inscrire</button>
   </form>
+</div>
 {% endblock %}

@@ -15,34 +15,36 @@
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-        <div style="background-color:{{colors.color1}}">
+        <div style="background:linear-gradient(to right, {{colors.color1.1}}, {{colors.color1.2}})">
 
 
             <div class="row main-police" style="text-align:center; font-size:50px">
                 <div class="col">
-                    <a style="color:{{colors.color2}}; text-decoration:none" href="{% url 'green_jacket_app:home' %}"><strong>GREEN</strong> SCORE</a>
+                    <a style="color:{{colors.color3.1}}; text-decoration:none" href="{% url 'green_jacket_app:home' %}"><strong>GREEN</strong> SCORE</a>
                 </div>
                 <div class="col">
-                    <a style="color:{{colors.color3}}; text-decoration:none" href="{% url 'green_jacket_app:brands' %}">Marques</a>
+                    <a style="color:{{colors.color3.1}}; text-decoration:none" href="{% url 'green_jacket_app:brands' %}">Marques</a>
                 </div>
                 <div class="col">
-                    <a style="color:{{colors.color3}}; text-decoration:none" href="{% url 'green_jacket_app:brand_models' %}">Modèles</a>
+                    <a style="color:{{colors.color3.1}}; text-decoration:none" href="{% url 'green_jacket_app:brand_models' %}">Modèles</a>
                 </div>
                 <div class="col">
-                    <a style="color:{{colors.color3}}; text-decoration:none" href="{% url 'green_jacket_app:home' %}">Green Score</a>
+                    <a style="color:{{colors.color3.1}}; text-decoration:none" href="{% url 'green_jacket_app:green_score' %}">Green Score</a>
                 </div>
                 <div class="col" style="font-size:20px">
                     <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:signup' %}">Sign Up</a>
                     <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:login_view' %}">login</a>
                     <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:logout_view' %}">logout</a>
-                    <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:toogle_dark_mode' %}?next={{current_path}}">{% if dark_mode %}Light{% else %}Dark{% endif %} Mode</a>
+                    {% if connected %}
+                        <a style="color:{{colors.text}}; text-decoration:none" href="{% url 'green_jacket_app:toogle_dark_mode' %}?next={{current_path}}">{% if dark_mode %}Light{% else %}Dark{% endif %} Mode</a>
+                    {% endif %}
                 </div>
 
             </div>
         </div>
     </head>
 
-    <body class="row main-police" style="background-color:{{colors.color2}}; color:{{colors.text}}"">
+    <body class="row main-police" style="background:linear-gradient(to right, {{colors.color2.1}}, {{colors.color2.1}}); color:{{colors.text}}"">
         <div style="margin:10px">
             {% block content %}{% endblock %}
         </div>

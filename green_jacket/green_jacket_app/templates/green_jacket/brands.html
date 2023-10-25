@@ -2,25 +2,443 @@
 
 {% block content %}
 
-    <!-- Title -->
-    <h1 style="text-align:center; font-size:70px; color:{{colors.color3}}">Les Marques</h1>
+    <style>
+*,*::before,*::after{box-sizing: border-box}
 
-    <div class="row" style="text-align:center">
-        <table>
-            {% for brand in brands %}
-                <tr>
-                    <td>
-                        </br>
-                        <a href="{% url 'green_jacket_app:brand_models' %}?brand={{ brand.name }}">
-                            <img style="width: 600px" src="{{ brand.image_url }}" alt="Logo HubSpot"/>
-                        </a>
-                        </br>
-                        <H3>Green Score : <strong>{{brand.get_score}}</strong></H3>
-                        </br>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+ul {padding:0;margin:0}
+
+img{max-width:100%;display: block}
+
+    
+input {display:none}/* input{position:absolute;left:-9999px} */
+
+label{cursor:pointer} /*on rend cliquable tous les labels*/  
+    
+.slideshow {
+	
+position:relative;
+max-width:480px;
+margin:2rem auto;
+border:10px solid hsla(0,0%,100%,.9);
+box-shadow:0 2px 6px hsla(0,0%,0%,.4)
+	
+	}
+      
+	
+.slideshow > ul {
+	
+position:relative;
+overflow:hidden
+	
+	}
+    
+.slideshow > ul > li{
+	
+display:flex;
+width:100%;
+height:100%;
+transform:translate3d(0,0,0);/*accelere l'animation / optionnel*/
+position:absolute;
+top:0;
+left:0;
+transition:transform 2s cubic-bezier(.4,1,.2,1)}
+
+.slideshow > ul > li.img1{left:0%}
+.slideshow > ul > li.img2{left:100%}
+.slideshow > ul > li.img3{left:200%}
+.slideshow > ul > li.img4{left:300%}
+    
+    
+.slideshow > #slide_img1:checked ~ ul > li,
+.slideshow > #pause_img1:checked ~ ul > li{transform:translatex(0%)}
+    
+    
+.slideshow > #slide_img2:checked ~ ul > li,
+.slideshow > #pause_img2:checked ~ ul > li {transform: translatex(-100%)}
+    
+    
+.slideshow > #slide_img3:checked ~ ul > li,
+.slideshow > #pause_img3:checked ~ ul > li {transform: translatex(-200%)}
+    
+    
+.slideshow > #slide_img4:checked ~ ul > li,
+.slideshow > #pause_img4:checked ~ ul > li {transform: translatex(-300%)}
+
+/*******************animation slide********************/
+@keyframes slide {
+0%, 13%{transform:translatex(0)}
+25%, 38%{transform:translatex(-100%)}
+50%, 63%{transform:translatex(-200%)}
+75%, 88%{transform:translatex(-300%)}
+}  
+    
+/******************fleches**************************/
+    
+.slideshow > .precedent,
+.slideshow > .suivant{
+width:44px;
+height:44px;
+margin-top:-22px; 
+position:absolute;
+top:50%;
+z-index:1}
+	
+.slideshow > .precedent{left:1rem}
+.slideshow > .suivant{right:1rem;}
+
+.slideshow > .precedent > label,
+.slideshow > .suivant > label{
+	
+position:absolute;
+display:flex;
+align-items: center;
+justify-content: center;
+opacity:0;
+z-index:-1;
+width:inherit;
+height:inherit;
+border-radius:50%;
+background-color:hsl(0,0%,15%);
+	
+	}   
+        
+.slideshow > .precedent > label::after{content:''; transform: rotate(-135deg);}
+.slideshow > .suivant > label::after{content:'';  transform: rotate(45deg);}
+    
+.slideshow > .precedent > label::after,
+.slideshow > .suivant > label::after {
+
+height: 20px;
+width: 20px;
+border-width: 5px 5px 0 0;
+border-style: solid;
+border-color: #f2f2f2;
+
+	
+	}   
+    
+    
+.slideshow > .slide:checked ~ .precedent > label,
+.slideshow > .slide:checked ~ .suivant > label{opacity:0;z-index:-1}
+
+.slideshow > #slide_img1:checked ~ .precedent > label.img4,
+.slideshow > #pause_img1:checked ~ .precedent > label.img4,
+.slideshow > #slide_img1:checked ~ .suivant > label.img2,
+.slideshow > #pause_img1:checked ~ .suivant > label.img2, 
+.slideshow > #slide_img2:checked ~ .precedent > label.img1,
+.slideshow > #pause_img2:checked ~ .precedent > label.img1,
+.slideshow > #slide_img2:checked ~ .suivant > label.img3,
+.slideshow > #pause_img2:checked ~ .suivant > label.img3, 
+.slideshow > #slide_img3:checked ~ .precedent > label.img2,
+.slideshow > #pause_img3:checked ~ .precedent > label.img2,
+.slideshow > #slide_img3:checked ~ .suivant > label.img4,
+.slideshow > #pause_img3:checked ~ .suivant > label.img4, 
+.slideshow > #slide_img4:checked ~ .precedent > label.img3,
+.slideshow > #pause_img4:checked ~ .precedent > label.img3,
+.slideshow > #slide_img4:checked ~ .suivant > label.img1,
+.slideshow > #pause_img4:checked ~ .suivant > label.img1{opacity:1;z-index:1}
+
+
+
+.slideshow > #play_img1:checked ~ .precedent > label.img4,
+.slideshow > #play_img1:checked ~ .suivant > label.img2 {animation:anim_fleches 17.2s infinite -2s}
+    
+    
+.slideshow > #play_img1:checked ~ .precedent > label.img1,
+.slideshow > #play_img1:checked ~ .suivant > label.img3 {animation:anim_fleches 17.2s infinite 2.3s}
+    
+    
+.slideshow > #play_img1:checked ~ .precedent > label.img2,
+.slideshow > #play_img1:checked ~ .suivant > label.img4 {animation:anim_fleches 17.2s infinite 6.6s}
+    
+    
+.slideshow > #play_img1:checked ~ .precedent > label.img3,
+.slideshow > #play_img1:checked ~ .suivant > label.img1 {animation:anim_fleches 17.2s infinite 10.9s}
+
+
+/* stop */
+.slideshow > .slide:checked ~ .precedent > label,
+.slideshow > .slide:checked ~ .suivant > label,
+.slideshow > .pause:checked ~ .precedent > label,
+.slideshow > .pause:checked ~ .suivant > label{animation-play-state:paused}
+
+/*********************************animation fleches*************************************************/
+@keyframes anim_fleches {
+	
+0%,
+24.99%{
+	
+opacity:1;
+z-index:1
+	
+	}
+	
+25%,100%{ 
+opacity:0;
+z-index:-1
+	
+	}
+	
+	}
+
+  
+    
+/********************bouton play/pause*************************/
+	
+.slideshow:hover{animation-play-state:paused}	
+	
+	
+.slideshow > .play_pause,
+.slideshow > .play_pause > label{position:absolute}
+    
+.slideshow > .play_pause {
+	
+top:50%;
+left:50%;
+z-index:1;
+	
+	}
+    
+
+.slideshow > #play_img1:checked ~ .play_pause > .pause,
+.slideshow > .slide:checked ~ .play_pause > .play,
+.slideshow > .pause:checked ~ .play_pause > .play{
+display:block;
+z-index:1}
+    
+    
+.slideshow > #play_img1:checked ~ .play_pause > .play,
+.slideshow > .slide:checked ~ .play_pause > .pause,
+.slideshow > .pause:checked ~ .play_pause > .pause{
+display:none;
+z-index:-1}
+
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img1,
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img2,
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img3,
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img4{
+opacity:0;
+z-index:-1}
+    
+    
+    
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img1 {animation:anim_fleches 17.2s infinite -2s}
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img2{animation:anim_fleches 17.2s infinite 2.3s}
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img3{animation:anim_fleches 17.2s infinite 6.6s}
+.slideshow > #play_img1:checked ~ .play_pause > .pause.img4 {animation:anim_fleches 17.2s infinite 10.9s}
+
+    
+    
+/* stop */
+.slideshow > .slide:checked ~ .play_pause > .pause,
+.slideshow > .pause:checked ~ .play_pause > .pause{animation-play-state:paused}
+
+
+.slideshow  > #play_img1:checked ~ ul > li {animation:slide 17.2s infinite}
+
+
+.slideshow > #play_img1:checked ~ ul > li,
+.slideshow > .pause:checked ~ ul > li{transition:none}
+
+.slideshow > .play_pause {transition: .4s 0s ease}
+.slideshow > .precedent {transition: .4s .15s ease}
+.slideshow > .suivant {transition: .4s .3s ease}
+    
+  
+/*apparition/disparition des fleches + bouton play/pause*/
+.slideshow > .precedent,
+.slideshow > .suivant,
+.slideshow > .play_pause{opacity:0}
+    
+
+.slideshow:hover > .precedent,
+.slideshow:hover > .suivant,
+.slideshow:hover > .play_pause{opacity:1}
+    
+
+.slideshow > .play_pause > label {
+
+margin-top:-22px;
+margin-left:-22px;
+width:44px;
+height:44px;
+border-radius:50%;
+transition:.3s ease
+	}
+    
+    
+.slideshow > .play_pause > .play{ 
+	
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 485 485' style='enable-background:new 0 0 485 485' xml:space='preserve'%3E%3Cg fill='%23fff'%3E%3Cpath d='M413.974 71.026C368.171 25.225 307.274 0 242.5 0S116.829 25.225 71.026 71.026C25.225 116.829 0 177.726 0 242.5s25.225 125.671 71.026 171.474C116.829 459.775 177.726 485 242.5 485s125.671-25.225 171.474-71.026C459.775 368.171 485 307.274 485 242.5s-25.225-125.671-71.026-171.474zM242.5 455C125.327 455 30 359.673 30 242.5S125.327 30 242.5 30 455 125.327 455 242.5 359.673 455 242.5 455z'/%3E%3Cpath d='M181.062 336.575 343.938 242.5l-162.876-94.075z'/%3E%3C/g%3E%3C/svg%3E%0A");
+
+}
+		
+.slideshow > .play_pause > .pause{
+	
+background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3C!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;' xml:space='preserve'%3E%3Cg fill='%23fff'%3E%3Cpath d='M256,0C114.842,0,0,114.842,0,256s114.842,256,256,256s256-114.842,256-256S397.158,0,256,0z M256,465.455 c-115.493,0-209.455-93.961-209.455-209.455S140.507,46.545,256,46.545S465.455,140.507,465.455,256S371.493,465.455,256,465.455z '/%3E%3Cpath d='M318.061,139.636c-12.853,0-23.273,10.42-23.273,23.273v186.182c0,12.853,10.42,23.273,23.273,23.273 c12.853,0,23.273-10.42,23.273-23.273V162.909C341.333,150.056,330.913,139.636,318.061,139.636z'/%3E%3Cpath d='M193.939,139.636c-12.853,0-23.273,10.42-23.273,23.273v186.182c0,12.853,10.42,23.273,23.273,23.273 c12.853,0,23.273-10.42,23.273-23.273V162.909C217.212,150.056,206.792,139.636,193.939,139.636z'/%3E%3C/g%3E%3C/svg%3E%0A");
+}
+    
+
+
+
+/***************************navigation puces bas********************************/
+.slideshow > .puces {
+position:absolute;
+left:0;
+width:100%;
+z-index:1;
+font-size: 0;
+text-align:center;
+bottom:.3125rem;
+}
+    
+.slideshow > .puces > label{
+position:relative;
+display:inline-flex;
+margin:0 .625rem;
+padding:.5rem;
+border-radius:50%;
+background-color:hsla(0,0%,0%,.6)}
+
+/********************simulation lien actif sur les puces******************************/
+.slideshow > .puces > label > .actif_puces {
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+border-radius:50%;
+z-index:1;
+background-color:hsl(0,0%,100%);
+transition:.3s ease;
+transform:scale(0)}
+
+
+.slideshow > #slide_img1:checked ~ .puces > label.img1 > .actif_puces,
+.slideshow > #pause_img1:checked ~ .puces > label.img1 > .actif_puces,
+.slideshow > #slide_img2:checked ~ .puces > label.img2 > .actif_puces,
+.slideshow > #pause_img2:checked ~ .puces > label.img2 > .actif_puces,
+.slideshow > #slide_img3:checked ~ .puces > label.img3 > .actif_puces,
+.slideshow > #pause_img3:checked ~ .puces > label.img3 > .actif_puces,
+.slideshow > #slide_img4:checked ~ .puces > label.img4 > .actif_puces,
+.slideshow > #pause_img4:checked ~ .puces > label.img4 > .actif_puces{transform:scale(1)}
+
+
+
+/* bouton play -  puces */
+
+.slideshow > #play_img1:checked ~ .puces > label.img1 > .actif_puces{animation:anim_puces 17.2s infinite -2s}
+    
+.slideshow > #play_img1:checked ~ .puces > label.img2 > .actif_puces{animation:anim_puces 17.2s infinite 2.3s}
+    
+.slideshow > #play_img1:checked ~ .puces > label.img3 > .actif_puces{animation:anim_puces 17.2s infinite 6.6s}
+    
+.slideshow > #play_img1:checked ~ .puces > label.img4 > .actif_puces{animation:anim_puces 17.2s infinite 10.9s}
+
+
+@keyframes anim_puces{
+	
+0%,
+24.99%{
+	
+transform:scale(1);
+background-color:hsl(0,0%,100%)
+
+}
+	
+25%,
+100%{
+transform:scale(0);
+background-color:unset
+	
+}
+	
+}
+
+.slideshow > #play_img1:checked ~ .puces > label > .actif_puces,
+.slideshow > .pause:checked ~ .puces > label > .actif_puces{transition:none}
+    
+ /* stop */
+
+.slideshow > .slide:checked ~ .puces > label > .actif_puces,
+.slideshow > .pause:checked ~ .puces > label > .actif_puces{animation-play-state:paused}   
+/********************************navigation puces bas****************************/
+
+
+/*-------------------- END Overview ------------------- */
+
+    </style>
+
+    <!-- Title -->
+    <h1 style="text-align:center; font-size:70px; color:{{colors.color3.1}}">Les Marques</h1>
+
+    <div class=slideshow>
+        <input name="slideshow" id=slide_img1 type="radio" class=slide>
+        <input name="slideshow" id=slide_img2 type="radio" class=slide>
+        <input name="slideshow" id=slide_img3 type="radio" class=slide>
+        <input name="slideshow" id=slide_img4 type="radio" class=slide> 
+        <input name="slideshow" id=play_img1 type="radio" checked>  
+        <input name="slideshow" id=pause_img1 type="radio" class=pause>
+        <input name="slideshow" id=pause_img2 type="radio" class=pause>
+        <input name="slideshow" id=pause_img3 type="radio" class=pause>
+        <input name="slideshow" id=pause_img4 type="radio" class=pause>
+        <ul>
+            <img src="https://media.discordapp.net/attachments/1165932002348896259/1166653169846194196/Marron_Elegant_Beaute_Logo_Directives_Presentation_4.jpg?ex=654b456f&is=6538d06f&hm=6cf6be232916e2d509bb92cb0e03beb50a4aab8584c447aa46c8d66265af21c7&=&width=469&height=629" alt>
+        <li class=img1>
+            <a href="{% url 'green_jacket_app:brand_models' %}?brand=Zara">
+                <img src="https://media.discordapp.net/attachments/1165932002348896259/1166653169846194196/Marron_Elegant_Beaute_Logo_Directives_Presentation_4.jpg?ex=654b456f&is=6538d06f&hm=6cf6be232916e2d509bb92cb0e03beb50a4aab8584c447aa46c8d66265af21c7&=&width=469&height=629" alt>
+            </a>
+        </li>
+        <li class=img2>
+        <a href="{% url 'green_jacket_app:brand_models' %}?brand=Celio">
+            <img src=https://media.discordapp.net/attachments/1165932002348896259/1166653169477103616/Marron_Elegant_Beaute_Logo_Directives_Presentation_5.jpg?ex=654b456e&is=6538d06e&hm=ad7cad76b1e331ad4939b8979a6b911ec95e65a6db5cd5d04e6118e27c9494e0&=&width=469&height=629 alt>
+        </a>
+        </li>
+        <li class=img3>
+            <a href="{% url 'green_jacket_app:brand_models' %}?brand=Gucci">
+                <img src=https://media.discordapp.net/attachments/1165932002348896259/1166653169204465694/Marron_Elegant_Beaute_Logo_Directives_Presentation_6.jpg?ex=654b456e&is=6538d06e&hm=30d59c66866bbb422c0e96e6401deb223f1cf0881386abad7352a08eb093cb16&=&width=467&height=629 alt>
+            </a>
+        
+        </li>
+        <li class=img4>
+            <a href="{% url 'green_jacket_app:brand_models' %}?brand=Belledonne">
+                <img src=https://media.discordapp.net/attachments/1165932002348896259/1166665239836758110/Marron_Elegant_Beaute_Logo_Directives_Presentation_7.jpg?ex=654b50ac&is=6538dbac&hm=8dba617949fa9ca0893eb67a95d98e3682e2ff9f690b79b4b882e83d050ae55c&=&width=467&height=629 alt>
+            </a>
+        </li>
+        </ul>
+        <div class=play_pause>
+        <label class=play for=play_img1></label>
+        <label class="pause img1" for=pause_img1></label>
+        <label class="pause img2" for=pause_img2></label>
+        <label class="pause img3" for=pause_img3></label>
+        <label class="pause img4" for=pause_img4></label>	
+        </div>
+        <div class=precedent>
+        <label class=img1 for=slide_img1></label>
+        <label class=img2 for=slide_img2></label>
+        <label class=img3 for=slide_img3></label>
+        <label class=img4 for=slide_img4></label>
+        </div>
+        <div class=suivant>
+        <label class=img1 for=slide_img1></label>
+        <label class=img2 for=slide_img2></label>
+        <label class=img3 for=slide_img3></label>
+        <label class=img4 for=slide_img4></label>
+        </div>
+        <div class=puces>
+        <label class=img1 for=slide_img1>
+        <span class=actif_puces></span>
+        </label>
+        <label class=img2 for=slide_img2>
+        <span class=actif_puces></span>
+        </label>
+        <label class=img3 for=slide_img3>
+        <span class=actif_puces></span>
+        </label>	
+        <label class=img4 for=slide_img4>
+        <span class=actif_puces></span>
+        </label>
+        </div> 
     </div>
 
 {% endblock %}
