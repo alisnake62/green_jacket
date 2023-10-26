@@ -84,12 +84,16 @@ def green_score(request):
 
 def login_view(request):
     context = get_context(request)
+    next_params = get_params(request, "next")
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('/green_jacket/home')
+            if next_params not in ["None", None, ""]:
+                return redirect(next_params)
+            else:
+                return redirect('/green_jacket/home')
     else:
         form = AuthenticationForm()
     context['form'] = form

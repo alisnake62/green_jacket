@@ -2,14 +2,16 @@
 
 {% block content %}
 
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Title -->
     <h1 style="text-align:center; font-size:70px; color:{{colors.color3.1}}">Les Modèles</h1>
 
+    <div style="text-align: center;">
     <form method="GET" id="brandFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
 
-        <label for="brand-select">Marque:</label>
+        <label for="brand-select"><h2>Marque:</h2></label>
         <select name="brand" onchange="if (this.form.className == 'filter') this.form.submit()">
             <option value="">Tout</option>
             {% for brand in brands_to_filter %}
@@ -21,27 +23,20 @@
             {% endfor %}
         </select>
 
-    </form>
-
-    <form method="GET" id="typeFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
-
-        <label for="type-select">Type:</label>
+   
+        <label for="type-select"><h2>Type:</h2></label>
         <select name="brand_model_type" onchange="if (this.form.className == 'filter') this.form.submit()">
             <option value="">Tout</option>
             {% for brand_model_type in brand_model_types_to_filter %}
                 {% if brand_model_type == brand_model_type_selected %}
-                    <option value={{brand_model_type}} selected>{{brand_model_type}}</option>
+                    <option value={{brand_model_type}} selected class="title" >{{brand_model_type}}</option>
                 {% else %}
                     <option value={{brand_model_type}}>{{brand_model_type}}</option>
                 {% endif %}
             {% endfor %}
         </select>
-    
-    </form>
-
-    <form method="GET" id="typeFormFilter" class="filter" action="{% url request.resolver_match.view_name %}">
-
-        <label for="favorite-checkbox">Mes Favoris:</label>
+  
+        <label for="favorite-checkbox"><h2>Mes Favoris:</h2></label>
         {% if favorite_selected == 'on' %}
             <input
                 type="checkbox"
@@ -60,7 +55,7 @@
         {% endif %}
 
     </form>
-
+</div>
     
     <div class="row">
 

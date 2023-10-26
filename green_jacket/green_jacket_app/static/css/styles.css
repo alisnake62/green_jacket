@@ -3,16 +3,16 @@
 .main-content {
     width: 100%;
     background: #F3F8FB;
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 .main-police {
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 .main-content-inner {
     padding: 0 30px 50px;
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 /*------------------------- END Core Css -------------------*/
@@ -24,7 +24,7 @@
     padding: 15px 30px;
     background: #fff;
     border-bottom: 1px solid #d8e3e7;
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 
@@ -34,7 +34,7 @@
     background: #fff;
     overflow: hidden;
     position: relative;
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 .s-report-inner {
@@ -46,7 +46,7 @@
 }
 
 .header-title {
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
     font-size: 18px;
     font-weight: 600;
     letter-spacing: 0;
@@ -60,7 +60,7 @@
     color: #565656;
     font-weight: 500;
     letter-spacing: 0;
-    font-family: 'luthier-reg-regular', sans-serif;
+    font-family: 'arimo', sans-serif;
 }
 
 
@@ -84,3 +84,10 @@
 
 
 
+@font-face {
+    font-family: 'arimo'; /* Nom de la police que vous utiliserez */
+    src: url('Arimo-Regular.ttf') format('ttf'), /* Chemin vers le fichier WOFF */
+    /* Autres propriétés de la police, comme le style, le poids, etc. */
+    font-weight: normal;
+    font-style: normal;
+}

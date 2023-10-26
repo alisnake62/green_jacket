@@ -30,8 +30,8 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost", "monappli.ovh"]
 
 # Application definition
 
-# LOGIN_REDIRECT_URL = 'green_jacket/home'
-# LOGIN_URL = ('login')
+LOGIN_REDIRECT_URL = '/green_jacket/login'
+LOGIN_URL = ('/green_jacket/login')
 
 INSTALLED_APPS = [
     'green_jacket_app',

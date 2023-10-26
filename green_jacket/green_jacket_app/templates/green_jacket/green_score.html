@@ -1,13 +1,90 @@
 {% extends 'green_jacket/base.html' %}
 
 {% block content %}
-<article style="text-align: center">
-  <h1 style="text-align:center; font-size:70px; color:{{colors.color3.1}}">Quelques Conseils Green</h1>
-  <h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget justo euismod, ultricies nunc vel, tincidunt urna. Sed bibendum massa sed velit ultrices, non ultrices orci vestibulum. Nulla convallis arcu nec euismod volutpat.
-  </h3>
-  <h3>
-      Suspendisse ullamcorper, est vel tempor hendrerit, leo dui varius orci, eu egestas lectus quam eu lectus. Sed convallis eget felis vel hendrerit. Quisque hendrerit, odio a suscipit euismod, sapien lectus convallis tortor.
-  </h3>
-</article>
+
+<style>
+  .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article {
+            text-align: left;
+            margin: 20px 0;
+            position: relative;
+        }
+        .article img {
+            max-width: 200px;
+            position: absolute;
+            top: 0;
+            left: -50px; /* Ajustez cette valeur pour déplacer l'image vers la gauche */
+        }
+        .article .content {
+            margin-left: 170px; /* Ajustez cette marge pour aligner le texte à droite de l'image */
+        }
+</style>
+
+<!-- Title -->
+<h1 style="text-align:center; font-size:70px; color:{{colors.color3.1}}">Les Conseils Green</h1>
+
+  <div class="container">
+
+
+  <div class="article">
+      <img src="https://www.craftine.com/media/catalog/product/cache/b7fd566cb3fd8bb5e0e17db7c1de0fcf/t/n/tn_03987_002.jpg" alt="Image 2">
+      <div class="content">
+          <h2>Jean</h2>
+          <p>Les jeans, bien qu'indémodables, ont un impact environnemental considérable. Leur production nécessite d'importantes quantités d'eau et de ressources, contribuant à la pénurie d'eau et à la dégradation de l'environnement. De plus, les processus de teinture et de finition des jeans peuvent être polluants. Choisir des alternatives plus durables dans notre garde-robe peut aider à réduire notre empreinte écologique.</p>
+      </div>
+  </div>
+
+  <div class="article">
+    <img src="https://www.cousette.com/4755/tissu-lin-lave-naturel.jpg" alt="Image 3">
+    <div class="content">
+        <h2>Lin</h2>
+        <p>Le lin est un choix écologique pour la mode. Il pousse naturellement avec peu d'irrigation et de pesticides, préservant ainsi les ressources en eau et la biodiversité. Sa production génère moins d'émissions de carbone que d'autres fibres, contribuant à la lutte contre le changement climatique. De plus, le lin est biodégradable, ce qui en fait une option respectueuse de l'environnement pour notre garde-robe.</p>
+    </div>
+</div>
+
+  <div class="article">
+      <img src="https://www.lamerceriedescreateurs.fr/7397-large_default/tissu-coton-bleu-roi-evira.jpg" alt="Image 3">
+      <div class="content">
+          <h2>Coton</h2>
+          <p>Le tissu en coton est un allié précieux pour l'environnement. Cultivé de manière durable, il nécessite moins d'eau que d'autres fibres, favorise la biodiversité et réduit les émissions de carbone. En fin de vie, il est biodégradable, contribuant ainsi à la réduction des déchets textiles. Opter pour le coton, c'est choisir une option éco-responsable pour notre planète.</p>
+      </div>
+  </div>
+
+  <div class="article">
+    <img src="https://www.naturellementchanvre.com/9546-thickbox_default/nemo-toile-d-embourrure-chanvre.jpg" alt="Image 3">
+    <div class="content">
+        <h2>Chanvre</h2>
+        <p>Le chanvre est un champion de la durabilité. Il pousse rapidement, nécessite peu d'eau et aucun pesticide, préservant ainsi les ressources naturelles et la biodiversité. Sa culture contribue à améliorer la qualité du sol et à réduire les émissions de carbone. Les textiles en chanvre sont non seulement écologiques, mais aussi durables, faisant de cette fibre un choix responsable pour la mode.</p>
+    </div>
+</div>
+
+<div class="article">
+  <img src="https://www.batiproduits.com/img/isolant-en-textile-recycle-en-vrac-pour-combles-perdus-isonat-cotonwool-002555873-product_maxi.jpg" alt="Image 3">
+  <div class="content">
+      <h2>Fibre Recyclée</h2>
+      <p>Les tissus en fibres recyclées sont des héros de la durabilité. Ils réduisent la demande de nouvelles matières premières, minimisent les déchets textiles et limitent la pollution associée à la production de nouveaux textiles. En choisissant des textiles recyclés, nous contribuons à la préservation des ressources, à la réduction des émissions de carbone et à la promotion de l'économie circulaire, favorisant ainsi un avenir plus vert pour la mode.</p>
+  </div>
+</div>
+
+</div>
+
+<div>
+    <br/>
+</div>
+<div>
+  <br/>
+</div>
+<div>
+  <br/>
+</div>
+<div>
+  <br/>
+</div>
+
+<div style="text-align: center;">
+<iframe width="800" height="500" src="https://www.youtube.com/embed/bVVKW6kleGM?si=pACgD1Jtuqwm4tW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
 {% endblock %}
